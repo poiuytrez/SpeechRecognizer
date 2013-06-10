@@ -54,9 +54,10 @@ public class SpeechRecognizer extends CordovaPlugin {
     	// Dispatcher
         if (ACTION_INIT.equals(action)) {
             
-            if (DoInit())
-                return true;
-            else
+            if (DoInit()){
+            	callbackContext.success();
+            	return true;
+            } else
             	this.cbContext.error("Speech Not Initialized or Unavailable");
                 return false;
             
