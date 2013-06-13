@@ -93,7 +93,7 @@ Create a 'com/phonegap/plugins/speech' folder under 'src' and add the SpeechReco
 
 The MIT License
 
-Copyright (c) 2011-2013
+Copyright (c) 2011-2013  
 Colin Turner (github.com/koolspin)  
 Guillaume Charhon (github.com/poiuytrez)  
 
