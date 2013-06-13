@@ -24,9 +24,10 @@ import org.apache.cordova.api.CallbackContext;
 
 import android.util.Log;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.os.Bundle;
 import android.speech.RecognizerIntent;
 
 /**
@@ -34,75 +35,45 @@ import android.speech.RecognizerIntent;
  */
 public class SpeechRecognizer extends CordovaPlugin {
     private static final String LOG_TAG = SpeechRecognizer.class.getSimpleName();
-    public static final String ACTION_INIT = "init";
-    public static final String ACTION_SPEECH_RECOGNIZE = "startRecognize";
     public static final String NOT_PRESENT_MESSAGE = "Speech recognition is not present or enabled";
 
-    private CallbackContext cbContext;
-    public String callback;
-    private String speechRecognizerCallbackId = "";
-    private boolean recognizerPresent = false;
+    private CallbackContext callbackContext;
+    private LanguageDetailsChecker languageDetailsChecker;
 
-    /* (non-Javadoc)
-     * @see com.phonegap.api.Plugin#execute(java.lang.String, org.json.JSONArray, java.lang.String)
-     */
     //@Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-        
-    	this.cbContext= callbackContext;
-        
-    	// Dispatcher
-        if (ACTION_INIT.equals(action)) {
-            
-            if (DoInit()){
-            	callbackContext.success();
-            	return true;
-            } else
-            	this.cbContext.error("Speech Not Initialized or Unavailable");
-                return false;
-            
-        }
-        else if (ACTION_SPEECH_RECOGNIZE.equals(action)) {
+		Boolean isValidAction = true;
+
+    	this.callbackContext= callbackContext;
+
+		// Action selector
+    	if ("startRecognize".equals(action)) {
             // recognize speech
-            if (!recognizerPresent) {
-                callbackContext.error(NOT_PRESENT_MESSAGE);
-            	return false;
-            }
-            if (!this.speechRecognizerCallbackId.equals("")) {
-            	callbackContext.error("Speech recognition is in progress.");
-            	return false;
-            }
-
-            
-            startSpeechRecognitionActivity(args);
-                       
-        }
-        else {
+            startSpeechRecognitionActivity(args);     
+        } else if ("getSupportedLanguages".equals(action)) {
+        	getSupportedLanguages();
+        } else {
             // Invalid action
-        	this.cbContext.error("Unknown action: " + action);
-            return false;
+        	this.callbackContext.error("Unknown action: " + action);
+        	isValidAction = false;
         }
-       return true;
+    	
+        return isValidAction;
+
     }
 
-    /**
-     * Initialize the speech recognizer by checking if one exists.
-     */
-    private boolean DoInit() {
-        this.recognizerPresent = IsSpeechRecognizerPresent();
-        return this.recognizerPresent;
-    }
+    // Get the list of supported languages
+    private void getSupportedLanguages() {
+    	if (languageDetailsChecker == null){
+    		languageDetailsChecker = new LanguageDetailsChecker(callbackContext);
+    	}
+    	// Create and launch get languages intent
+    	Intent detailsIntent = new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
+    	cordova.getActivity().sendOrderedBroadcast(detailsIntent, null, languageDetailsChecker, null, Activity.RESULT_OK, null, null);
+		
+	}
 
-    /**
-     * Checks if a recognizer is present on this device
-     */
-    private boolean IsSpeechRecognizerPresent() {
-        PackageManager pm = cordova.getActivity().getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-        return !activities.isEmpty();
-    }
-
-    /**
+	/**
      * Fire an intent to start the speech recognition activity.
      *
      * @param args Argument array with the following string args: [req code][number of matches][prompt string]
@@ -111,6 +82,7 @@ public class SpeechRecognizer extends CordovaPlugin {
         int reqCode = 42;   //Hitchhiker?
         int maxMatches = 0;
         String prompt = "";
+        String language = "";
 
         try {
             if (args.length() > 0) {
@@ -127,14 +99,23 @@ public class SpeechRecognizer extends CordovaPlugin {
                 // Optional text prompt
                 prompt = args.getString(2);
             }
+            if (args.length() > 3){
+            	// Optional language specified
+            	language = args.getString(3);
+            }
         }
         catch (Exception e) {
             Log.e(LOG_TAG, String.format("startSpeechRecognitionActivity exception: %s", e.toString()));
         }
 
+        // Create the intent and set parameters
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        if(!language.equals("")){
+        	intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
+        } else {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        }
         if (maxMatches > 0)
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxMatches);
         if (!prompt.equals(""))
@@ -165,17 +146,17 @@ public class SpeechRecognizer extends CordovaPlugin {
                         "");
             }
 
-            ReturnSpeechResults(requestCode, matches);
+            returnSpeechResults(requestCode, matches);
         }
         else {
             // Failure - Let the caller know
-            this.cbContext.error(Integer.toString(resultCode));
+            this.callbackContext.error(Integer.toString(resultCode));
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void ReturnSpeechResults(int requestCode, ArrayList<String> matches) {
+    private void returnSpeechResults(int requestCode, ArrayList<String> matches) {
         boolean firstValue = true;
         StringBuilder sb = new StringBuilder();
         sb.append("{\"speechMatches\": {");
@@ -194,7 +175,7 @@ public class SpeechRecognizer extends CordovaPlugin {
         }
         sb.append("]}}");
 
-        this.cbContext.success(sb.toString());
+        this.callbackContext.success(sb.toString());
     }
     
 }

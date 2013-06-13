@@ -8,20 +8,10 @@
  */
 
 /**
- * c'tor
+ * constructor
  */
 function SpeechRecognizer() {
 }
-
-/**
- * Initialize
- *
- * @param successCallback
- * @param errorCallback
- */
-SpeechRecognizer.prototype.init = function(successCallback, errorCallback) {
-     return cordova.exec(successCallback, errorCallback, "SpeechRecognizer", "init", []);
-};
 
 /**
  * Recognize speech and return a list of matches

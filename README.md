@@ -3,6 +3,8 @@
 This plugin will recognize commands, phrases, etc as spoken by the user.
 A collection of possible matches (strings) are returned to your app.
 
+Requires Google API v8
+
 ## Adding the Plugin to your project ##
 
 Of course this plugin requires [Android PhoneGap](http://github.com/phonegap/phonegap-android).
