@@ -3,7 +3,7 @@
 This plugin will recognize commands, phrases, etc as spoken by the user.
 A collection of possible matches (strings) are returned to your app.
 
-Requires Google API v8
+Requires Android SDK version 8.
 
 ## Adding the Plugin to your project ##
 
@@ -89,29 +89,13 @@ Create a 'com/phonegap/plugins/speech' folder under 'src' and add the SpeechReco
 </html>
 ```
 
-## RELEASE NOTES ##
-
-### November 23, 2011 ###
-
-* Java code to java convention (functions starts with a lowercase characater)
-* New getSupportedLanguages method
-* Java file warnings removed
-* Better error handling 
-* New language parameter
-* SpeechOk demo code fixed (show the recognized text instead of the id)
-
-### September 16, 2011 ###
-
-* Initial release
-
 ## License
 
 The MIT License
 
-Copyright (c) 2011
-Colin Turner (github.com/koolspin)
-Guillaume Charhon (github/poiuytrez)
-
+Copyright (c) 2011-2013
+Colin Turner (github.com/koolspin)  
+Guillaume Charhon (github.com/poiuytrez)  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
