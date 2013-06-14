@@ -16,22 +16,16 @@ To get professional non-free support for the plugin, please contact me at gcharh
 
 Installation 
 -------------
-
-
-
-Requires Android SDK version 8.
-
-## Adding the Plugin to your project ##
-
-Of course this plugin requires [Android PhoneGap](http://github.com/phonegap/phonegap-android).
-
-1. To install the plugin, copy speechrecognizer.js to your project's www folder.
-2. Add speechrecognizer.js to your html file, eg: `<script type="text/javascript" charset="utf-8" src="speechrecognizer.js"></script>`
-3. Create an 'com/urbtek/phonegap' path under 'src' and add the SpeechRecognizer.java file to it.
-3.a on version 2.0.x, this plugin has been update to the new Plugin architecture (Cordova 2.2.0+)
-Create a 'com/phonegap/plugins/speech' folder under 'src' and add the SpeechRecognizer.java file to it 
-4. Add the plugin to the 'res/xml/plugins.xml' file. eg: `<plugin name="SpeechRecognizer" value="com.urbtek.phonegap.SpeechRecognizer"/>`
-4.a On 2.0.x, `<plugin name="SpeechRecognizer" value="com.phonegap.plugins.xpeech.SpeechRecognizer"/>`
+* Create a 'com/phonegap/plugins/speech' folder under 'src' and add [LanguageDetailsChecker.java](LanguageDetailsChecker.java) and [SpeechRecognizer.java](SpeechRecognizer.java) to it.
+* Add [SpeechRecognizer.js](SpeechRecognizer.js) in your www folder.  
+* Add in your index.html  
+`<script type="text/javascript" charset="utf-8" src="SpeechRecognizer.js"></script>`  
+* In res/xml/config.xml, add     
+```xml
+<feature name="SpeechRecognizer">
+      <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer"/>
+</feature>
+```
 
 ### Example
 ```html
