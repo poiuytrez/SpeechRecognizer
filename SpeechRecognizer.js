@@ -29,8 +29,8 @@ function SpeechRecognizer() {
  * @param maxMatches The maximum number of matches to return. 0 means the service decides how many to return.
  * @param promptString An optional string to prompt the user during recognition
  */
-SpeechRecognizer.prototype.startRecognize = function(successCallback, errorCallback, reqCode, maxMatches, promptString) {
-    return cordova.exec(successCallback, errorCallback, "SpeechRecognizer", "startRecognize", [reqCode, maxMatches, promptString]);
+SpeechRecognizer.prototype.startRecognize = function(successCallback, errorCallback, maxMatches, promptString, language) {
+    return cordova.exec(successCallback, errorCallback, "SpeechRecognizer", "startRecognize", [maxMatches, promptString, language]);
 };
 
 /**

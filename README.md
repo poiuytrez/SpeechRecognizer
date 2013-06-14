@@ -34,12 +34,11 @@ Usage
 #### Start recognition
 Show the recognition dialog and get the recognized sentences
 
-    SpeechRecognizer.startRecognize(success, error, requestCode, maxMatches, promptString, language);
+    SpeechRecognizer.startRecognize(success, error, maxMatches, promptString, language);
 parameters
-* success : The success callback. It provides a string of the recognized speech. Example: "Hello world".
+* success : The success callback. It provides a json array with all possible matches. Example: "[hello world,low world,hello walls]".
 * error : The error callback.
-* requestCode : request code passed to the intent. TODO: To be removed.
-* maxMaches : TODO: to remove
+* maxMaches : Maximum of returned possibles sentences matches.
 * promptString : String shown below the Google logo and the microphone icon. Instruct the user of what to. Example: "Speak now"
 * language : Language used by the speech recognition engine. Example: "en-US".
 
@@ -48,7 +47,7 @@ Get the list of supported languages codes
 
     SpeechRecognizer.getSupportedLanguages(success, error);
 parameters
-* success : The success callback. It provides a json array of all the recognized language codes. Example: "['en-US', 'fr-FR']".
+* success : The success callback. It provides a json array of all the recognized language codes. Example: "[en-US,fr-FR,de-DE]".
 * error : The error callback.
 
 Full example
@@ -70,26 +69,14 @@ Full example
             }
 
             function recognizeSpeech() {
-                var requestCode = 1234;
                 var maxMatches = 5;
                 var promptString = "Speak now";	// optional
                 var language = "en-US";						// optional
                 window.plugins.speechrecognizer.startRecognize(function(result){
-                    var respObj, requestCode, matches;
-                    if (result) {
-                        respObj = JSON.parse(result);
-                        if (respObj) {
-                            var matches = respObj.speechMatches.speechMatch;
-
-                            for (x in matches) {
-                                alert("possible match: " + matches[x]);
-                                // regex comes in handy for dealing with these match strings
-                            }
-                        }
-                    }
+                    alert(result);
                 }, function(errorMessage){
                     console.log("Error message: " + errorMessage);
-                }, requestCode, maxMatches, promptString, language);
+                }, maxMatches, promptString, language);
             }
 
             // Show the list of the supported languages

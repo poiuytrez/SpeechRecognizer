@@ -1,16 +1,3 @@
-package com.phonegap.plugins.speech;
-
-import java.util.List;
-
-import org.apache.cordova.api.CallbackContext;
-import org.json.JSONArray;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.speech.RecognizerIntent;
-
 /**
  * The MIT License
  *
@@ -26,6 +13,19 @@ import android.speech.RecognizerIntent;
  *
  *
  */
+
+package com.phonegap.plugins.speech;
+
+import java.util.List;
+
+import org.apache.cordova.api.CallbackContext;
+import org.json.JSONArray;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
 
 public class LanguageDetailsChecker extends BroadcastReceiver
 {

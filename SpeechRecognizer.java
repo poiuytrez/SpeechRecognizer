@@ -16,23 +16,15 @@
 package com.phonegap.plugins.speech;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
 import org.apache.cordova.api.CordovaPlugin;
 import org.apache.cordova.api.CallbackContext;
-//import org.apache.cordova.api.PluginResult.Status;
 
 import android.util.Log;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.speech.RecognizerIntent;
 
 /**
@@ -40,7 +32,7 @@ import android.speech.RecognizerIntent;
  */
 public class SpeechRecognizer extends CordovaPlugin {
     private static final String LOG_TAG = SpeechRecognizer.class.getSimpleName();
-    public static final String NOT_PRESENT_MESSAGE = "Speech recognition is not present or enabled";
+    private static int REQUEST_CODE = 1001;
 
     private CallbackContext callbackContext;
     private LanguageDetailsChecker languageDetailsChecker;
@@ -84,29 +76,23 @@ public class SpeechRecognizer extends CordovaPlugin {
      * @param args Argument array with the following string args: [req code][number of matches][prompt string]
      */
     private void startSpeechRecognitionActivity(JSONArray args) {
-        int reqCode = 42;   //Hitchhiker?
         int maxMatches = 0;
         String prompt = "";
         String language = "";
 
         try {
             if (args.length() > 0) {
-                // Request code - passed back to the caller on a successful operation
+            	// Maximum number of matches, 0 means the recognizer decides
                 String temp = args.getString(0);
-                reqCode = Integer.parseInt(temp);
-            }
-            if (args.length() > 1) {
-                // Maximum number of matches, 0 means the recognizer decides
-                String temp = args.getString(1);
                 maxMatches = Integer.parseInt(temp);
             }
-            if (args.length() > 2) {
-                // Optional text prompt
-                prompt = args.getString(2);
+            if (args.length() > 1) {
+            	// Optional text prompt
+                prompt = args.getString(1);
             }
-            if (args.length() > 3){
+            if (args.length() > 2) {
             	// Optional language specified
-            	language = args.getString(3);
+            	language = args.getString(2);
             }
         }
         catch (Exception e) {
@@ -125,7 +111,7 @@ public class SpeechRecognizer extends CordovaPlugin {
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxMatches);
         if (!prompt.equals(""))
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, prompt);
-        cordova.startActivityForResult(this, intent, reqCode);
+        cordova.startActivityForResult(this, intent, REQUEST_CODE);
     }
 
     /**
@@ -136,22 +122,8 @@ public class SpeechRecognizer extends CordovaPlugin {
         if (resultCode == Activity.RESULT_OK) {
             // Fill the list view with the strings the recognizer thought it could have heard
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            float[] confidence = data.getFloatArrayExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES);
 
-            if (confidence != null) {
-                Log.d(LOG_TAG, "confidence length "+ confidence.length);
-                Iterator<String> iterator = matches.iterator();
-                int i = 0;
-                while(iterator.hasNext()) {
-                    Log.d(LOG_TAG, "Match = " + iterator.next() + " confidence = " + confidence[i]);
-                    i++;
-                }
-            } else {
-                Log.d(LOG_TAG, "No confidence" +
-                        "");
-            }
-
-            returnSpeechResults(requestCode, matches);
+            returnSpeechResults(matches);
         }
         else {
             // Failure - Let the caller know
@@ -161,26 +133,9 @@ public class SpeechRecognizer extends CordovaPlugin {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void returnSpeechResults(int requestCode, ArrayList<String> matches) {
-        boolean firstValue = true;
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"speechMatches\": {");
-        sb.append("\"requestCode\": ");
-        sb.append(Integer.toString(requestCode));
-        sb.append(", \"speechMatch\": [");
-
-        Iterator<String> iterator = matches.iterator();
-        while(iterator.hasNext()) {
-            String match = iterator.next();
-
-            if (firstValue == false)
-                sb.append(", ");
-            firstValue = false;
-            sb.append(JSONObject.quote(match));
-        }
-        sb.append("]}}");
-
-        this.callbackContext.success(sb.toString());
+    private void returnSpeechResults(ArrayList<String> matches) {
+        JSONArray jsonMatches = new JSONArray(matches);
+        this.callbackContext.success(jsonMatches);
     }
     
 }
