@@ -20,12 +20,14 @@ Installation
 * Add [SpeechRecognizer.js](SpeechRecognizer.js) in your www folder.  
 * Add in your index.html  
 `<script type="text/javascript" charset="utf-8" src="SpeechRecognizer.js"></script>`  
-* In res/xml/config.xml, add     
-```xml  
+* In res/xml/config.xml, add 
+```xml
 <feature name="SpeechRecognizer">  
       <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer"/>  
-</feature>  
-```
+</feature> 
+```    
+
+ 
 
 ### Example
 ```html
