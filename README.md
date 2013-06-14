@@ -1,7 +1,23 @@
-# Android SpeechRecognizer plugin for Phonegap #
+Android SpeechRecognizer plugin for Cordova/Phonegap
+===================================
+This plugin provides access to the speech recognition feature. This plugin will recognize commands, phrases, etc as spoken by the user.
 
-This plugin will recognize commands, phrases, etc as spoken by the user.
-A collection of possible matches (strings) are returned to your app.
+![Screenshot speak now](/screenshots/speaknow.png "Speak now")
+
+Requirements
+-------------
+Android 2.2 (API level 8) is required  
+Tested on Cordova 2.8, Android 2.2.1 and Android 4.2.2
+
+Support
+---------------------
+For free community support, please use the issue tracker.  
+To get professional non-free support for the plugin, please contact me at gcharhon(at)smartmobilesoftware.com.
+
+Installation 
+-------------
+
+
 
 Requires Android SDK version 8.
 
