@@ -28,81 +28,91 @@ Installation
 </feature> 
 ```    
 
- 
+Usage
+-------
 
-### Example
+#### Start recognition
+Show the recognition dialog and get the recognized sentences
+
+    SpeechRecognizer.startRecognize(success, error, requestCode, maxMatches, promptString, language);
+parameters
+* success : The success callback. It provides a string of the recognized speech. Example: "Hello world".
+* error : The error callback.
+* requestCode : request code passed to the intent. TODO: To be removed.
+* maxMaches : TODO: to remove
+* promptString : String shown below the Google logo and the microphone icon. Instruct the user of what to. Example: "Speak now"
+* language : Language used by the speech recognition engine. Example: "en-US".
+
+#### Supported languages
+Get the list of supported languages codes
+
+    SpeechRecognizer.getSupportedLanguages(success, error);
+parameters
+* success : The success callback. It provides a json array of all the recognized language codes. Example: "['en-US', 'fr-FR']".
+* error : The error callback.
+
+Full example
+----------------
 ```html
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>PhoneGap</title>
-  <script type="text/javascript" charset="utf-8" src="phonegap.js"></script> 
-  <script type="text/javascript" charset="utf-8" src="speechrecognizer.js"></script>
-  <script type="text/javascript" charset="utf-8">
-     function onLoad(){
-          document.addEventListener("deviceready", onDeviceReady, true);
-     }
-     function onDeviceReady()
-	{
-	    window.plugins.speechrecognizer.init(speechInitOk, speechInitFail);
-	    // etc.
-	}
+    <head>
+        <title>Speech Recognition plugin demo</title>
+        <script type="text/javascript" src="cordova-2.8.js"></script>
+        <script type="text/javascript" src="SpeechRecognizer.js"></script>
+    </head>
+    <body>
 
-	function speechInitOk() {
-		alert("we are good");
-		supportedLanguages();
-		recognizeSpeech();
-	}
-	function speechInitFail(m) {
-		alert(m);
-	}
+        <script type="text/javascript">
 
-	// Show the list of the supported languages
-	function supportedLanguages() {
-		window.plugins.speechrecognizer.getSupportedLanguages(function(languages){
-				// display the json array
-				alert(languages);
-			}, function(error){
-				alert("Could not retrieve the supported languages");
-		});
-	}
+            function onDeviceReady(){
+                console.log("Device is ready");
+            }
 
-	function recognizeSpeech() {
-	    var requestCode = 1234;
-	    var maxMatches = 5;
-	    var promptString = "Please say a command";	// optional
-		var language = "en-US";						// optional
-	    window.plugins.speechrecognizer.startRecognize(speechOk, speechFail, requestCode, maxMatches, promptString, language);
-	}
-	
-	function speechOk(result) {
-	    var respObj, requestCode, matches;
-	    if (result) {
-	        respObj = JSON.parse(result);
-	        if (respObj) {
-	            var matches = respObj.speechMatches.speechMatch;
-	            
-	            for (x in matches) {
-	                alert("possible match: " + matches[x]);
-	                // regex comes in handy for dealing with these match strings
-	            }
-	        }        
-	    }
-	}
-	
-	function speechFail(message) {
-	    console.log("speechFail: " + message);
-	}
-  </script>
-  </head>
-  <body onload="onLoad();">
-       <h1>Welcome to PhoneGap</h1>
-       <h2>Edit assets/www/index.html</h2>
-  </body>
+            function recognizeSpeech() {
+                var requestCode = 1234;
+                var maxMatches = 5;
+                var promptString = "Speak now";	// optional
+                var language = "en-US";						// optional
+                window.plugins.speechrecognizer.startRecognize(function(result){
+                    var respObj, requestCode, matches;
+                    if (result) {
+                        respObj = JSON.parse(result);
+                        if (respObj) {
+                            var matches = respObj.speechMatches.speechMatch;
+
+                            for (x in matches) {
+                                alert("possible match: " + matches[x]);
+                                // regex comes in handy for dealing with these match strings
+                            }
+                        }
+                    }
+                }, function(errorMessage){
+                    console.log("Error message: " + errorMessage);
+                }, requestCode, maxMatches, promptString, language);
+            }
+
+            // Show the list of the supported languages
+            function getSupportedLanguages() {
+                window.plugins.speechrecognizer.getSupportedLanguages(function(languages){
+                    // display the json array
+                    alert(languages);
+                }, function(error){
+                    alert("Could not retrieve the supported languages : " + error);
+                });
+            }
+
+            document.addEventListener("deviceready", onDeviceReady, true);
+        </script>
+
+        <button onclick="recognizeSpeech();">Start recognition</button>
+        <button onclick="getSupportedLanguages();">Get Supported Languages</button>
+    </body>
 </html>
 ```
 
-## License
+License
+----------------
 
 The MIT License
 
