@@ -7,7 +7,7 @@ This plugin provides access to the speech recognition feature. This plugin will 
 Requirements
 -------------
 Android 2.2 (API level 8) is required  
-Tested on Cordova 2.8, Android 2.2.1 and Android 4.2.2
+Compatible with Cordova 3.0.
 
 Support
 ---------------------
