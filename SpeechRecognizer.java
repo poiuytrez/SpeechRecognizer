@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.json.JSONArray;
-import org.apache.cordova.api.CordovaPlugin;
-import org.apache.cordova.api.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
 
 import android.util.Log;
 import android.app.Activity;
@@ -78,7 +78,7 @@ public class SpeechRecognizer extends CordovaPlugin {
     private void startSpeechRecognitionActivity(JSONArray args) {
         int maxMatches = 0;
         String prompt = "";
-        String language = "";
+        String language = Locale.getDefault().toString();
 
         try {
             if (args.length() > 0) {
@@ -102,11 +102,9 @@ public class SpeechRecognizer extends CordovaPlugin {
         // Create the intent and set parameters
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        if(!language.equals("")){
-        	intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
-        } else {
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
-        }
+        
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
+
         if (maxMatches > 0)
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxMatches);
         if (!prompt.equals(""))
