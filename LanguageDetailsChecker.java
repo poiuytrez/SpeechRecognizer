@@ -18,7 +18,7 @@ package com.phonegap.plugins.speech;
 
 import java.util.List;
 
-import org.apache.cordova.api.CallbackContext;
+import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 
 import android.content.BroadcastReceiver;
