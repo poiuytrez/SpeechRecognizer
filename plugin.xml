@@ -19,7 +19,7 @@
     
     <config-file target="res/xml/config.xml" parent="/*">
 	  <feature name="SpeechRecognizer" >
-	    <param name="android-package" value="com.phonegap.plugins.SpeechRecognizer"/>
+	    <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer"/>
 	  </feature>
 	</config-file>
     
