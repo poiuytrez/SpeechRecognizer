@@ -14,6 +14,7 @@
   
   <platform name="android">
     <source-file src="SpeechRecognizer.java" target-dir="src/com/phonegap/plugins/speech" />
+    <source-file src="LanguageDetailsChecker.java" target-dir="src/com/phonegap/plugins/speech" />
   </platform>
   
 </plugin>
