@@ -46,12 +46,7 @@ SpeechRecognizer.prototype.getSupportedLanguages = function(successCallback, err
 };
 
 /**
- * Load
+ * Export
  */
-if(!window.plugins) {
-    window.plugins = {};
-}
-if (!window.plugins.speechrecognizer) {
-    window.plugins.speechrecognizer = new SpeechRecognizer();
-}
+module.exports = new SpeechRecognizer();
 
