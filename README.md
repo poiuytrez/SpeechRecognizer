@@ -4,6 +4,9 @@ This plugin provides access to the speech recognition feature. This plugin will 
 
 ![Screenshot speak now](/screenshots/speaknow.png "Speak now")
 
+If you find this plugin useful, please donate via BitCoin to support it:
+17JK27E4vbzPrJbBAtvjUVN3LrFcATtRA1
+
 Requirements
 -------------
 Android 2.2 (API level 8) is required  
