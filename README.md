@@ -12,24 +12,24 @@ Requirements
 Android 2.2 (API level 8) is required  
 Compatible with Cordova 3.0.
 
+android:launchMode CANNOT be "singleInstance"
+
+It can be eventually "singleTask" (or "standard", "singleTop")
+
 Support
 ---------------------
 For free community support, please use the issue tracker.  
 To get professional non-free support for the plugin, please contact me at gcharhon(at)smartmobilesoftware.com.
 
-Installation 
--------------
-* Create a 'com/phonegap/plugins/speech' folder under 'src' and add [LanguageDetailsChecker.java](LanguageDetailsChecker.java) and [SpeechRecognizer.java](SpeechRecognizer.java) to it.
-* Add [SpeechRecognizer.js](SpeechRecognizer.js) in your www folder.  
-* Add in your index.html  
-`<script type="text/javascript" charset="utf-8" src="SpeechRecognizer.js"></script>`  
-* In res/xml/config.xml, add 
-
-```xml
-<feature name="SpeechRecognizer">  
-      <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer"/>  
-</feature> 
-```    
+Installation for cordova>=3.0.0 (tested 3.1.0, 3.4.0)
+-----------------------------------------------------
+```bash
+cordova create buz
+cd buz
+cordova platform add android
+cordova plugin add https://github.com/poiuytrez/SpeechRecognizer
+```
+  
 
 Usage
 -------
@@ -60,8 +60,7 @@ Full example
 <html>
     <head>
         <title>Speech Recognition plugin demo</title>
-        <script type="text/javascript" src="cordova-2.8.js"></script>
-        <script type="text/javascript" src="SpeechRecognizer.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
     </head>
     <body>
 
