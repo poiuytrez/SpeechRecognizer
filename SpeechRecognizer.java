@@ -16,6 +16,7 @@
 package com.phonegap.plugins.speech;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONArray;
@@ -25,6 +26,7 @@ import org.apache.cordova.CallbackContext;
 import android.util.Log;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.speech.RecognizerIntent;
 
 /**
@@ -49,6 +51,8 @@ public class SpeechRecognizer extends CordovaPlugin {
             startSpeechRecognitionActivity(args);     
         } else if ("getSupportedLanguages".equals(action)) {
         	getSupportedLanguages();
+        } else if ("checkSpeechRecognition".equals(action)) {
+        	checkSpeechRecognition();
         } else {
             // Invalid action
         	this.callbackContext.error("Unknown action: " + action);
@@ -68,6 +72,21 @@ public class SpeechRecognizer extends CordovaPlugin {
     	Intent detailsIntent = new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
     	cordova.getActivity().sendOrderedBroadcast(detailsIntent, null, languageDetailsChecker, null, Activity.RESULT_OK, null, null);
 		
+	}
+
+    // Check to see if a recognition activity is present
+    private void checkSpeechRecognition() {
+        PackageManager pm = cordova.getActivity().getPackageManager();
+        List activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+
+        if (activities.size() != 0) {
+            // is present
+            this.callbackContext.success("RecognizerIntent.ACTION_RECOGNIZE_SPEECH found!");
+        } else {
+            // don't exist
+            this.callbackContext.error("RecognizerIntent.ACTION_RECOGNIZE_SPEECH not found...");
+        }
 	}
 
 	/**

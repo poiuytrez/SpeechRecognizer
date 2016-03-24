@@ -91,11 +91,21 @@ Full example
                 });
             }
 
+            // Check to see if a recognition activity is present
+            function checkSpeechRecognition() {
+                window.plugins.speechrecognizer.checkSpeechRecognition(function(){
+                    alert('Speech Recogition is present! :D');
+                }, function(){
+                    alert('Speech Recogition not found! :(');
+                });
+            }
+
             document.addEventListener("deviceready", onDeviceReady, true);
         </script>
 
         <button onclick="recognizeSpeech();">Start recognition</button>
         <button onclick="getSupportedLanguages();">Get Supported Languages</button>
+        <button onclick="checkSpeechRecognition();">Check Speech Recognition</button>
     </body>
 </html>
 ```
