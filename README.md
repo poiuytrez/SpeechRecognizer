@@ -21,8 +21,8 @@ Support
 For free community support, please use the issue tracker.  
 To get professional non-free support for the plugin, please contact me at gcharhon(at)smartmobilesoftware.com.
 
-Installation for cordova>=3.0.0 (tested 3.1.0, 3.4.0)
------------------------------------------------------
+Installation for cordova>=3.0.0 (tested 3.1.0, 3.4.0, 6.0.0)
+------------------------------------------------------------
 ```bash
 cordova create buz
 cd buz
@@ -91,11 +91,21 @@ Full example
                 });
             }
 
+            // Check to see if a recognition activity is present
+            function checkSpeechRecognition() {
+                window.plugins.speechrecognizer.checkSpeechRecognition(function(){
+                    alert('Speech Recogition is present! :D');
+                }, function(){
+                    alert('Speech Recogition not found! :(');
+                });
+            }
+
             document.addEventListener("deviceready", onDeviceReady, true);
         </script>
 
         <button onclick="recognizeSpeech();">Start recognition</button>
         <button onclick="getSupportedLanguages();">Get Supported Languages</button>
+        <button onclick="checkSpeechRecognition();">Check Speech Recognition</button>
     </body>
 </html>
 ```

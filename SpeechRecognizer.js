@@ -46,6 +46,18 @@ SpeechRecognizer.prototype.getSupportedLanguages = function(successCallback, err
 };
 
 /**
+ * Get the list of the supported languages in IETF BCP 47 format
+ *
+ * @param successCallback
+ * @param errorCallback
+ *
+ * Return a String message with the result
+ */
+SpeechRecognizer.prototype.checkSpeechRecognition = function(successCallback, errorCallback) {
+    return cordova.exec(successCallback, errorCallback, "SpeechRecognizer", "checkSpeechRecognition", []);
+};
+
+/**
  * Export
  */
 module.exports = new SpeechRecognizer();
