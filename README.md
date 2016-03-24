@@ -21,8 +21,8 @@ Support
 For free community support, please use the issue tracker.  
 To get professional non-free support for the plugin, please contact me at gcharhon(at)smartmobilesoftware.com.
 
-Installation for cordova>=3.0.0 (tested 3.1.0, 3.4.0)
------------------------------------------------------
+Installation for cordova>=3.0.0 (tested 3.1.0, 3.4.0, 6.0.0)
+------------------------------------------------------------
 ```bash
 cordova create buz
 cd buz

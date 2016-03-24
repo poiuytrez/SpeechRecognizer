@@ -13,7 +13,7 @@
  *
  *
  */
-package com.phonegap.plugins.speech;
+package org.apache.cordova.speechrecognizer;
 
 import java.util.ArrayList;
 import java.util.List;
