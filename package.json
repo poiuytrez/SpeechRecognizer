@@ -1,0 +1,36 @@
+{
+  "name": "SpeechRecognizer",
+  "version": "1.0.0",
+  "description": "Recognizes speech input",
+  "cordova": {
+    "id": "cordova-plugin-speechrecognizer",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poiuytrez/SpeechRecognizer.git"
+  },
+  "keywords": [
+    "cordova",
+    "speech",
+    "recognizer",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Guillaume Charhon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/poiuytrez/SpeechRecognizer"
+  },
+  "homepage": "https://github.com/poiuytrez/SpeechRecognizer#readme"
+}
